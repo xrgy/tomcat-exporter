@@ -12,11 +12,14 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by gy on 2018/5/22.
@@ -38,10 +41,16 @@ public class WebServer {
     }
 
     public static DbData getDbData(String target){
-        String sql1 = String.format("select ip form tbl_monitor_record where uuid ='%s'",target);
-        String sql2 = String.format("select monitor_info from tbl_monitor_record where uuid = '%s'",target);
+        String sql1 = String.format("select ip from tbl_monitor_record where uuid='%s'",target);
+        String sql2 = String.format("select monitor_info from tbl_monitor_record where uuid=" +
+                "'%s'",target);
         MysqlJdbc mysqlJdbc = new MysqlJdbc();
-        Connection conn = mysqlJdbc.connectDb();
+        Connection conn = null;
+        try {
+            conn = mysqlJdbc.connectDb();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Statement stmt = null;
         ResultSet rs =null;
         DbData dbData = new DbData();

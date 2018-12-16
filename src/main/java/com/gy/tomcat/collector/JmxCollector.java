@@ -74,8 +74,8 @@ public class JmxCollector extends Collector{
         cfg.ssl = false;
         cfg.whitelistObjectNames.add(null);
         cfg.rules.add(new Rule());
-//        File configFile = new File("C:\\Users\\gy\\IdeaProjects\\tomcat-exporter\\src\\main\\java\\com\\gy\\tomcat\\config.yaml");
-        File configFile =  new File("/root/tomcat-exporter/config.yaml");
+        File configFile = new File("C:/Users/gy/IdeaProjects/tomcat-exporter/src/main/java/com/gy/tomcat/config.yaml");
+//        File configFile =  new File("/config.yaml");
         Map<String, Object> yamlConfig = (Map<String, Object>) new Yaml().load(new FileReader(configFile));
         if (yamlConfig.containsKey("whitelistObjectNames")){
             cfg.whitelistObjectNames.clear();
