@@ -60,7 +60,7 @@ public class JmxCollector extends Collector{
         }
     }
 
-    private Config loadConfig(String ip, String port, String userName, String password) throws FileNotFoundException, MalformedObjectNameException {
+    private Config loadConfig(String ip, String port, String userName, String password) throws MalformedObjectNameException {
         Config cfg = new Config();
         if (ip.isEmpty() || port.isEmpty()){
             cfg.jmxUrl = "";
@@ -76,8 +76,15 @@ public class JmxCollector extends Collector{
         cfg.rules.add(new Rule());
         File configFile = new File("C:/Users/gy/IdeaProjects/tomcat-exporter/src/main/java/com/gy/tomcat/config.yaml");
 //        File configFile =  new File("/config.yaml");
-        Map<String, Object> yamlConfig = (Map<String, Object>) new Yaml().load(new FileReader(configFile));
+        Map<String, Object> yamlConfig = null;
+        try {
+            yamlConfig = (Map<String, Object>) new Yaml().load(new FileReader(configFile));
+        } catch (FileNotFoundException e) {
+            System.out.println("/config.yaml FileNotFoundException:"+e.getMessage());
+            e.printStackTrace();
+        }
         if (yamlConfig.containsKey("whitelistObjectNames")){
+            System.out.println("has read /config.yaml");
             cfg.whitelistObjectNames.clear();
             List<Object> names = (List<Object>) yamlConfig.get("whitelistObjectNames");
             for (Object name : names){

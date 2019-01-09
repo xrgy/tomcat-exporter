@@ -206,7 +206,7 @@ public class JmxScraper {
                 this.receiver.recordBean(domain, beanProperties, attrKeys, attrName, attrType, attrDescription, valu);
             } else if ("requestCount".equals(attrName) || "errorCount".equals(attrName) || ("processingTime".equals(attrName)
                     && "GlobalRequestProcessor".equals(beanProperties.get("type"))) || "currentThreadCount".equals(attrName)
-                    || "currentThreadBusy".equals(attrName) || "maxThreads".equals(attrName) || "bytesReceived".equals(attrName)
+                    || "currentThreadsBusy".equals(attrName) || "maxThreads".equals(attrName) || "bytesReceived".equals(attrName)
                     || "bytesSent".equals(attrName)) {
                 logScrape(domain + beanProperties + attrName, value.toString());
                 String name = beanProperties.get("name");

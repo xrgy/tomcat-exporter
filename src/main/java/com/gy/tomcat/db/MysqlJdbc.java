@@ -40,10 +40,10 @@ public class MysqlJdbc {
 
         String []str =dbEndpoint.split(":");
         String dbName =System.getenv("DB_DATABASE");
-
-        String ip = getClusterIpByServiceName(str[0]);
-        System.out.println(ip);
-        String url = "jdbc:mysql://"+ip+":"+str[1]+"/"+dbName+"?autoReconnect=true&serverTimezone=GMT";
+        String url = "jdbc:mysql://"+dbEndpoint+"/"+dbName+"?autoReconnect=true&serverTimezone=GMT";
+//        String ip = getClusterIpByServiceName(str[0]);
+//        System.out.println(ip);
+//        String url = "jdbc:mysql://"+ip+":"+str[1]+"/"+dbName+"?autoReconnect=true&serverTimezone=GMT";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url,user,password);

@@ -4,6 +4,6 @@ whitelistObjectNames:
 - "*:type=ThreadPool,*"
 - "*:type=Manager,*"
 - "java.lang:type=Memory,*"
-- "java.lang:type=RunTime,*"
+- "java.lang:type=Runtime,*"
 - "java.lang:type=OperatingSystem,*"
 - "java.lang:type=Threading,*"
