@@ -41,9 +41,9 @@ public class WebServer {
     }
 
     public static DbData getDbData(String target){
-        String sql1 = String.format("select ip from tbl_monitor_record where uuid='%s'",target);
-        String sql2 = String.format("select monitor_info from tbl_monitor_record where uuid=" +
-                "'%s'",target);
+        String sql1 = String.format("select ip,username,password,port from tbl_tomcat_monitor_record where uuid='%s'",target);
+//        String sql2 = String.format("select monitor_info from tbl_monitor_record where uuid=" +
+//                "'%s'",target);
         MysqlJdbc mysqlJdbc = new MysqlJdbc();
         Connection conn = null;
         try {
@@ -60,30 +60,34 @@ public class WebServer {
             rs = stmt.executeQuery(sql1);
             while (rs.next()){
                 dbData.setIp(rs.getString("ip"));
+                dbData.setUserName(rs.getString("username"));
+                dbData.setPassword(rs.getString("password"));
+                dbData.setPort(rs.getString("port"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
             mysqlJdbc.closeRs(rs);
             mysqlJdbc.closeStmt(stmt);
-        }
-        try {
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql2);
-            while (rs.next()){
-                String string = rs.getString(1);
-                getInfo = new ObjectMapper().readValue(string,GetInfo.class);
-                dbData.setPort(getInfo.getPort());
-                dbData.setUserName(getInfo.getUserName());
-                dbData.setPassword(getInfo.getPassword());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            mysqlJdbc.closeRs(rs);
-            mysqlJdbc.closeStmt(stmt);
             mysqlJdbc.closeConn(conn);
         }
+//        try {
+//            stmt = conn.createStatement();
+//            rs = stmt.executeQuery(sql2);
+//            while (rs.next()){
+//                String string = rs.getString(1);
+//                getInfo = new ObjectMapper().readValue(string,GetInfo.class);
+//                dbData.setPort(getInfo.getPort());
+//                dbData.setUserName(getInfo.getUserName());
+//                dbData.setPassword(getInfo.getPassword());
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }finally {
+//            mysqlJdbc.closeRs(rs);
+//            mysqlJdbc.closeStmt(stmt);
+//            mysqlJdbc.closeConn(conn);
+//        }
         return dbData;
     }
 }
